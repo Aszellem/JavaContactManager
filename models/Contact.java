@@ -7,14 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 public class Contact {
     private String name;
-    private String birthDate;
     private String phoneNumber;
+    private String birthDate;
     private int age;
 
-    // SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-    // Date date = new Date(System.currentTimeMillis());
-
-    public Contact(String name, String birthDate, String phoneNumber) throws ParseException {
+    public Contact(String name, String phoneNumber, String birthDate) throws ParseException {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("name cannot be null/blank");
         }
@@ -26,20 +23,32 @@ public class Contact {
         }
 
         this.name = name;
-        this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
+        this.birthDate = birthDate;
         this.age = toAge(birthDate);
     }
 
-    public Contact(Contact source) throws ParseException {
+    public Contact(Contact source) {
         this.name = source.name;
-        this.birthDate = source.birthDate;
         this.phoneNumber = source.phoneNumber;
+        this.birthDate = source.birthDate;
         this.age = source.age;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public void setName(String name) {
@@ -49,19 +58,6 @@ public class Contact {
         this.name = name;
     }
 
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) throws ParseException {
-         this.birthDate = birthDate;
-         setAge(toAge(birthDate));
-     }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
     public void setPhoneNumber(String phoneNumber) {
         if (phoneNumber == null || phoneNumber.isBlank()) {
             throw new IllegalArgumentException("phone number cannot be null/blank");
@@ -69,35 +65,26 @@ public class Contact {
         if (phoneNumber.length() < 5) {
             throw new IllegalArgumentException("phone number can't be less than 5 characters");
         }
+
         this.phoneNumber = phoneNumber;
     }
 
-    public int getAge() {
-        return age;
+    public void setBirthDate(String birthDate) throws ParseException {
+        this.birthDate = birthDate;
+        setAge(toAge(birthDate));
     }
 
-    public void setAge(int age) {
+    private void setAge(int age) {
         this.age = age;
     }
 
-    /**
-     * 
-     * @param birthDate
-     * @return
-     * @throws ParseException
-     * 
-     *                        Inside function: Calculate the age of the contact from
-     *                        the birth date and the current
-     *                        date difference
-     */
-
     public int toAge(String birthDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        long diff = new Date().getTime() - formatter.parse(birthDate).getTime();
-        return (int)TimeUnit.MILLISECONDS.toDays(diff) / 365;
+        formatter.setLenient(false);
+        long diff = new Date().getTime() - formatter.parse(birthDate).getTime(); // age in milliseconds
+        return (int) (TimeUnit.MILLISECONDS.toDays(diff) / 365);
     }
 
-    @Override
     public String toString() {
         return "Name: " + this.name + "\n" +
                 "Phone number: " + this.phoneNumber + "\n" +

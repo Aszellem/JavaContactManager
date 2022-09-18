@@ -50,18 +50,16 @@ public class Main {
                 String phoneNumber = sc.nextLine();
                 System.out.print("\tBirth Date: ");
                 String birthDate = sc.nextLine();
-                if (phoneNumber.isBlank() || name.isBlank()) {
-                    throw new IllegalArgumentException("The input cannot be blank");
-                }
-                if (phoneNumber.length() < 5) {
-                    throw new IllegalArgumentException("The phone number cannot be less than 5 characters");
-                }
-                try {
-                    cManager.addContact(new Contact(name, phoneNumber, birthDate));
-                } catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                } finally {
-                    System.out.println("\n\nUPDATED CONTACTS\n\n" + cManager);
+                if (phoneNumber.isBlank() || name.isBlank() || phoneNumber.length() < 5) {
+                    throw new IllegalArgumentException("\nThe input you provided is not valid.");
+                } else {
+                    try {
+                        cManager.addContact(new Contact(name, phoneNumber, birthDate));
+                    } catch (ParseException e) {
+                        System.out.println(e.getMessage());
+                    } finally {
+                        System.out.println("\n\nUPDATED CONTACTS\n\n" + cManager);
+                    }
                 }
 
             } else if (userChoose.equals("b")) {

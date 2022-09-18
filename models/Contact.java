@@ -3,6 +3,7 @@ package models;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Contact {
     private String name;
@@ -10,8 +11,8 @@ public class Contact {
     private String phoneNumber;
     private int age;
 
-    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-    Date date = new Date(System.currentTimeMillis());
+    // SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+    // Date date = new Date(System.currentTimeMillis());
 
     public Contact(String name, String birthDate, String phoneNumber) throws ParseException {
         if (name == null || name.isBlank()) {
@@ -53,9 +54,9 @@ public class Contact {
     }
 
     public void setBirthDate(String birthDate) throws ParseException {
-        this.birthDate = birthDate;
-        setAge(toAge(birthDate));
-    }
+         this.birthDate = birthDate;
+         setAge(toAge(birthDate));
+     }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -91,10 +92,9 @@ public class Contact {
      */
 
     public int toAge(String birthDate) throws ParseException {
-        int d1 = Integer.parseInt(formatter.format(birthDate));
-        int d2 = Integer.parseInt(formatter.format(date));
-        int age = (d2 - d1) / 10000;
-        return age;
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        long diff = new Date().getTime() - formatter.parse(birthDate).getTime();
+        return (int)TimeUnit.MILLISECONDS.toDays(diff) / 365;
     }
 
     @Override

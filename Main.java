@@ -47,22 +47,28 @@ public class Main {
                 System.out.print("\tName: ");
                 String name = sc.nextLine();
                 System.out.print("\tPhone Number: ");
-                String number = sc.nextLine();
+                String phoneNumber = sc.nextLine();
                 System.out.print("\tBirth Date: ");
                 String birthDate = sc.nextLine();
+                if (phoneNumber.isBlank() || name.isBlank()) {
+                    throw new IllegalArgumentException("The input cannot be blank");
+                }
+                if (phoneNumber.length() < 5) {
+                    throw new IllegalArgumentException("The phone number cannot be less than 5 characters");
+                }
                 try {
-                    cManager.addContact(new Contact(name, number, birthDate));
+                    cManager.addContact(new Contact(name, phoneNumber, birthDate));
                 } catch (ParseException e) {
                     System.out.println(e.getMessage());
                 } finally {
-                    System.out.println("\n\nUPDATED CONTACTS\n\n" +cManager);
+                    System.out.println("\n\nUPDATED CONTACTS\n\n" + cManager);
                 }
 
             } else if (userChoose.equals("b")) {
                 System.out.println("\nWho would you like to remove?");
                 String name = sc.nextLine();
                 cManager.removeContact(name);
-                System.out.println("\n\nUPDATED CONTACTS\n\n" +cManager);
+                System.out.println("\n\nUPDATED CONTACTS\n\n" + cManager);
 
             } else {
                 break;

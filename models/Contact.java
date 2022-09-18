@@ -19,7 +19,7 @@ public class Contact {
             throw new IllegalArgumentException("phone number cannot be null/blank");
         }
         if (phoneNumber.length() < 5) {
-            throw new IllegalArgumentException("phone number can't be less than 5 characters");
+            throw new IllegalArgumentException("phone number cannot be less than 5 characters");
         }
 
         this.name = name;
